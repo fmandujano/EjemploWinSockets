@@ -1,6 +1,8 @@
 #include "ClientServer.h"
 using namespace std;
 
+#define MSG_SIZE 128
+
 int  ServerThread()
 {
 	bool desconectar = false;
@@ -54,6 +56,7 @@ int  ServerThread()
 	//If it returns non-zero quit, as this indicates error
 	if (bind(server, (sockaddr*)&local, sizeof(local)) != 0)
 	{
+		puts("error al utiliziar el puerto");
 		return 0;
 	}
 
@@ -75,33 +78,34 @@ int  ServerThread()
 	SOCKET client;
 	sockaddr_in from;
 	int fromlen = sizeof(from);
-
-	client = accept(server, (struct sockaddr*)&from, &fromlen);
-	if (client == INVALID_SOCKET) {
-		printf("accept failed: %d\n", WSAGetLastError());
-		closesocket(server);
-		WSACleanup();
-		return 1;
-	}
-
-	puts("Un vliente se ha conectado");
-	char recvbuf[128];  //un buffer de 128 bytes
+	char recvbuf[MSG_SIZE];  //un buffer de 128 bytes
 	int iResult, iSendResult;
 	//este es el tamanno del paquete a enviar y recibir
-	int recvbuflen = 128;
+	int recvbuflen = MSG_SIZE;
 
-	do 
+	while (true)
 	{
+		client = accept(server, (struct sockaddr*)&from, &fromlen);
+		if (client == INVALID_SOCKET)
+		{
+			printf("accept failed: %d\n", WSAGetLastError());
+			closesocket(server);
+			WSACleanup();
+			return 1;
+		}
+
+		std::cout << inet_ntoa(from.sin_addr) << " conectado \n";
+		
 		//recibir mensaje
 		iResult = recv(client, recvbuf, recvbuflen, 0);
-		if (iResult > 0) 
+		if (iResult > 0)
 		{
 			printf("Bytes recibidos: %d\n", iResult);
 			std::cout << "Cliente dice " << recvbuf << std::endl;
 			char* msjRespuesta = "mensaje recibido";
 			iSendResult = send(client, msjRespuesta, strlen(msjRespuesta), 0);
 			//manejo de errores
-			if (iSendResult == SOCKET_ERROR) 
+			if (iSendResult == SOCKET_ERROR)
 			{
 				printf("fallo al enviar: %d\n", WSAGetLastError());
 				closesocket(client);
@@ -112,11 +116,20 @@ int  ServerThread()
 		}
 		else if (iResult == 0) //significa	que el cliente se ha desconectad
 			printf("Cerrando conexion...\n");
-		else {
+		else
+		{
 			printf("fallo al recibir: %d\n", WSAGetLastError());
-			closesocket(client);
-			WSACleanup();
-			return 1;
 		}
-	}while (iResult > 0);
+
+		//limpiar buffer
+		for (int i = 0; i < MSG_SIZE; i++)
+		{
+			recvbuf[i] = '\0';
+		}
+
+
+		closesocket(client);
+	}
+	WSACleanup();
+	return 1;
 }
