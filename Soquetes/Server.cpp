@@ -94,14 +94,14 @@ int  ServerThread()
 			return 1;
 		}
 
-		std::cout << inet_ntoa(from.sin_addr) << " conectado \n";
+		//std::cout << inet_ntoa(from.sin_addr) << " conectado \n";
 		
 		//recibir mensaje
 		iResult = recv(client, recvbuf, recvbuflen, 0);
 		if (iResult > 0)
 		{
-			printf("Bytes recibidos: %d\n", iResult);
-			std::cout << "Cliente dice " << recvbuf << std::endl;
+			//printf("Bytes recibidos: %d\n", iResult);
+			std::cout << inet_ntoa(from.sin_addr) <<  ": " << recvbuf << std::endl;
 			char* msjRespuesta = "mensaje recibido";
 			iSendResult = send(client, msjRespuesta, strlen(msjRespuesta), 0);
 			//manejo de errores
@@ -112,7 +112,7 @@ int  ServerThread()
 				WSACleanup();
 				return 1;
 			}
-			printf("Bytes enviados: %d\n", strlen(msjRespuesta));
+			//printf("Bytes enviados: %d\n", strlen(msjRespuesta));
 		}
 		else if (iResult == 0) //significa	que el cliente se ha desconectad
 			printf("Cerrando conexion...\n");
