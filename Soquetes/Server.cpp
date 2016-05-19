@@ -71,7 +71,7 @@ int  ServerThread()
 		return 1;
 	}
 
-	puts(" detectoado");
+	//puts(" detectoado");
 
 	//we will need variables to hold the client socket.
 	//thus we declare them here.
@@ -94,41 +94,49 @@ int  ServerThread()
 			return 1;
 		}
 
-		//std::cout << inet_ntoa(from.sin_addr) << " conectado \n";
+		std::cout << "Cliente "<<inet_ntoa(from.sin_addr) << " conectado \n";
 		
 		//recibir mensaje
-		iResult = recv(client, recvbuf, recvbuflen, 0);
-		if (iResult > 0)
+
+		bool escuchandoCliente = true;
+		while (escuchandoCliente)
 		{
-			//printf("Bytes recibidos: %d\n", iResult);
-			std::cout << inet_ntoa(from.sin_addr) <<  ": " << recvbuf << std::endl;
-			char* msjRespuesta = "mensaje recibido";
-			iSendResult = send(client, msjRespuesta, strlen(msjRespuesta), 0);
-			//manejo de errores
-			if (iSendResult == SOCKET_ERROR)
+			iResult = recv(client, recvbuf, recvbuflen, 0);
+			if (iResult > 0)
 			{
+				//printf("Bytes recibidos: %d\n", iResult);
+				std::cout << inet_ntoa(from.sin_addr) << ": " << recvbuf << std::endl;
+				/*
+				char* msjRespuesta = "mensaje recibido";
+				iSendResult = send(client, msjRespuesta, strlen(msjRespuesta), 0);
+				//manejo de errores
+				if (iSendResult == SOCKET_ERROR)
+				{
 				printf("fallo al enviar: %d\n", WSAGetLastError());
 				closesocket(client);
 				WSACleanup();
 				return 1;
+				}
+				*/
+				//printf("Bytes enviados: %d\n", strlen(msjRespuesta));
 			}
-			//printf("Bytes enviados: %d\n", strlen(msjRespuesta));
-		}
-		else if (iResult == 0) //significa	que el cliente se ha desconectad
-			printf("Cerrando conexion...\n");
-		else
-		{
-			printf("fallo al recibir: %d\n", WSAGetLastError());
-		}
+			else if (iResult == 0) //significa	que el cliente se ha desconectad
+				printf("Cerrando conexion...\n");
+			else
+			{
+				printf("fallo al recibir: %d\n", WSAGetLastError());
+				closesocket(client);
+				escuchandoCliente = false;
+			}
 
-		//limpiar buffer
-		for (int i = 0; i < MSG_SIZE; i++)
-		{
-			recvbuf[i] = '\0';
+			//limpiar buffer
+			for (int i = 0; i < MSG_SIZE; i++)
+			{
+				recvbuf[i] = '\0';
+			}
+
 		}
-
-
-		closesocket(client);
+		//
 	}
 	WSACleanup();
 	return 1;

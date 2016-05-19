@@ -10,7 +10,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 {
 	int nRetCode = 0;
 
-	std::cout << "Escribe 1 para servidor, 2 para cliente \n";
+	std::cout << "Escribe 1 para servidor TCP, 2 para cliente TCP \n3 para servidor UDP y 4 para cliente UDP\n";
 
 	int sel = _getch();
 
@@ -22,7 +22,16 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 	{
 		ClientThread();
 	}
+	else if (sel == 51)
+	{
+		ServerUDPThread();
+	}
+	else if (sel == 52)
+	{
+		ClientUDPThread();
+	}
 	else
+
 		std::cout << "opcion absurda. matando\n";
 
 	//esperar a cerrar

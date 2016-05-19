@@ -4,3 +4,5 @@
 
 int ServerThread();
 int ClientThread();
+int ServerUDPThread();
+int ClientUDPThread();

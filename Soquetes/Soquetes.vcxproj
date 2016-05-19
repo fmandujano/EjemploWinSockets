@@ -85,7 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ClientUDP.cpp" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="ServerdUDP.cpp" />
     <ClCompile Include="Soquetes.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

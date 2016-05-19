@@ -28,6 +28,9 @@ int ClientThread()
 		return 0;
 	}
 
+
+
+
 	if (connect(localsocket, (struct sockaddr*)&server, sizeof(server)) == SOCKET_ERROR)
 	{
 		printf("Error al conectar: %d\n", WSAGetLastError());
@@ -36,15 +39,31 @@ int ClientThread()
 	}
 	else
 	{
-		char * buffer = "Hola soy un cliente";
-		int retval = send(localsocket, buffer, strlen(buffer), 0);
+		char buffer[256];
+		int retval = send(localsocket, "HOLA", strlen("HOLA"), 0);
 		if (retval == SOCKET_ERROR)
 		{
 			printf("Error al enviar: %d.\n", WSAGetLastError());
 			WSACleanup();
 			return 1;
 		}
-		
+
+		while (true)
+		{
+
+			std::cin.getline(buffer, 256);
+
+			//std::cout << buffer<<"\n";
+			
+			int retval = send(localsocket, buffer, strlen(buffer), 0);
+			if (retval == SOCKET_ERROR)
+			{
+				printf("Error al enviar: %d.\n", WSAGetLastError());
+				WSACleanup();
+				return 1;
+			}
+		}
+		/*
 		//ahora, recibir el mensaje
 		char recvbuf[128]; //mismo tamanio que en el servidor
 		int recvbuflen = 128;
@@ -65,6 +84,8 @@ int ClientThread()
 			WSACleanup();
 			return 1;
 		}
+
+		*/
 	}
 	return 0;
 }
