@@ -1,6 +1,8 @@
 
 #include "ClientServer.h"
 #define BUFLEN 128
+#define IP_SERVER "127.0.0.1"
+
 int ClientUDPThread()
 {
 	struct sockaddr_in si_other;
@@ -10,6 +12,9 @@ int ClientUDPThread()
 	WSADATA wsa;
 
 	printf("\nInitialising Winsock...");
+
+	printf("personaje %c \n", 0x02);
+
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 	{
 		printf("Failed. Error Code : %d", WSAGetLastError());
@@ -26,7 +31,7 @@ int ClientUDPThread()
 	memset((char *)&si_other, 0, sizeof(si_other));
 	si_other.sin_family = AF_INET;
 	si_other.sin_port = htons((u_short) 666);
-	si_other.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+	si_other.sin_addr.S_un.S_addr = inet_addr(IP_SERVER);
 
 	while (1)
 	{
@@ -40,15 +45,20 @@ int ClientUDPThread()
 			tecla = getch();
 		}
 		else tecla = 0;
-		itoa(tecla, message, 10);
-
-		//send the message
-		if (sendto(s, message, strlen(message), 0, (struct sockaddr *) &si_other, slen) == SOCKET_ERROR)
+		if (tecla != 0)
 		{
-			printf("sendto() failed with error code : %d", WSAGetLastError());
-			exit(EXIT_FAILURE);
+			itoa(tecla, message, 10);
+			puts(message);
+			if (sendto(s, message, strlen(message), 0, (struct sockaddr *) &si_other, slen) == SOCKET_ERROR)
+			{
+				printf("sendto() failed with error code : %d", WSAGetLastError());
+				exit(EXIT_FAILURE);
+			}
 		}
 
+		
+
+	
 		//receive a reply and print it
 		//clear the buffer by filling null, it might have previously received data
 

@@ -84,8 +84,11 @@ int  ServerUDPThread()
 			//exit(EXIT_FAILURE);
 		}
 
-		//print details of the client/peer and the data received
-		printf("Recibido de %s: %s\n", inet_ntoa(other.sin_addr), buf);
+		if (buf[0] != 0)
+		{
+			//print details of the client/peer and the data received
+			printf("Recibido de %s: %s\n", inet_ntoa(other.sin_addr), buf);
+		}
 		//printf("Datos: %s\n", buf);
 
 	}

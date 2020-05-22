@@ -2,7 +2,7 @@
 
 int ClientThread()
 {
-	std::cout << "Soy un cliente \n";
+	printf("personaje %c \n", 0x02);
 	
 	SOCKET localsocket;
 	WSADATA wsaData;
