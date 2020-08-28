@@ -12,7 +12,12 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 {
 	int nRetCode = 0;
 
-	std::cout << "Escribe 1 para servidor TCP, 2 para cliente TCP \n3 para servidor UDP y 4 para cliente UDP\n";
+	puts("Opciones:");
+	puts("E para ejemplo con servidor en juegodetalento.com:6666\n");
+	puts("1 para servidor TCP"); 
+	puts("2 para cliente TCP");
+	puts("3 para servidor UDP");
+	puts("4 para cliente UDP\n");
 
 	int sel = _getch();
 
@@ -31,6 +36,10 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 	else if (sel == 52)
 	{
 		ClientUDPThread();
+	}
+	else if (sel == 'e')
+	{
+		ejemploTCP();
 	}
 	else
 
