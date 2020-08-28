@@ -37,11 +37,12 @@ int ClientUDPThread()
 	{
 		//printf("Enter message : ");
 		//gets(message);
-
+		
 		//int random = rand() % 100;
 		int tecla;
 		if (kbhit())
 		{
+			system("cls");
 			tecla = getch();
 		}
 		else tecla = 0;
