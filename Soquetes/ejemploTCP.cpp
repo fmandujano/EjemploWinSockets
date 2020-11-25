@@ -2,6 +2,7 @@
 
 #define PORT 6666
 
+//Ejemplo de conexión TCP a servidor ubicado en juegodetalento.com:6666
 int ejemploTCP()
 {
 	SOCKET localsocket;
@@ -43,7 +44,7 @@ int ejemploTCP()
 		//asignar un buffer de memoria de 256 bytes
 		char buffer[256];
 		//enviar mensaje con send
-		char* mensaje = "nuevo mensaje de pruebas\n";
+		char* mensaje = "hola desde programa en C++\n";
 		int retval = send(localsocket, mensaje , strlen(mensaje), 0);
 		//si hay error al enviar, mostrarlo
 		if (retval == SOCKET_ERROR)

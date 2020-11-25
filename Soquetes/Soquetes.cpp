@@ -3,7 +3,7 @@
 /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms738545%28v=vs.85%29.aspx
 /// Felipe Mandujano, 2015
 
-/// Revisado al 28 de agosto de 2020
+/// Revisado al 25 de noviembre de 2020
 
 
 #include "ClientServer.h"
