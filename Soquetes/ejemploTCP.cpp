@@ -2,6 +2,7 @@
 
 #define PORT 6666
 
+//Ejemplo de conexión TCP a servidor ubicado en monsterballgo.com:6666
 int ejemploTCP()
 {
 	SOCKET localsocket;
@@ -29,12 +30,21 @@ int ejemploTCP()
 		return 1;
 	}
 
-	std::cout << "Conectando a 52.34.131.94 en el puerto " << PORT << std::endl;
+	std::cout << "Cliente Conectando a 52.34.131.94 en el puerto " << PORT << std::endl; 
 	//conectar a la direccion definida en server
 	//si hay error imprimir un mensaje
 	if (connect(localsocket, (struct sockaddr*)&server, sizeof(server)) == SOCKET_ERROR)
 	{
-		printf("Error al conectar: %d\n", WSAGetLastError());
+		//traducir codigo de error a algo legible
+		wchar_t* strerror = NULL;
+		int errorcode = WSAGetLastError();
+		FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+			NULL, errorcode,
+			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+			strerror,
+			0, NULL);
+
+		std::cout << "Error al conectar: " << strerror << std::endl;
 		WSACleanup();
 		return 1;
 	}
@@ -43,12 +53,22 @@ int ejemploTCP()
 		//asignar un buffer de memoria de 256 bytes
 		char buffer[256];
 		//enviar mensaje con send
-		char* mensaje = "nuevo mensaje de pruebas\n";
+		char* mensaje = "PLAYERPOS(x=123.234234,y=23423.23,z=56546)\n";
 		int retval = send(localsocket, mensaje , strlen(mensaje), 0);
 		//si hay error al enviar, mostrarlo
 		if (retval == SOCKET_ERROR)
 		{
-			printf("Error al enviar: %d.\n", WSAGetLastError());
+			//traducir numero de error a string humanamente legible
+			wchar_t* strerror = NULL;
+			int errorcode = WSAGetLastError();
+			FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+				NULL, errorcode,
+				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+				strerror, 
+				0, NULL);
+
+			std::cout << "2Error al conectar: " << strerror << std::endl;
+
 			WSACleanup();
 			return 1;
 		}

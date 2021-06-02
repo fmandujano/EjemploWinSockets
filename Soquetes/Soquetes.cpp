@@ -3,7 +3,7 @@
 /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms738545%28v=vs.85%29.aspx
 /// Felipe Mandujano, 2015
 
-/// Revisado al 28 de agosto de 2020
+/// Revisado al 2 de junio de 2021
 
 
 #include "ClientServer.h"
@@ -13,7 +13,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 	int nRetCode = 0;
 
 	puts("Opciones:");
-	puts("E para ejemplo con servidor en juegodetalento.com:6666\n");
+	puts("E para ejemplo conectando a servidor en monsterballgo.com:6666\n");
 	puts("1 para servidor TCP"); 
 	puts("2 para cliente TCP");
 	puts("3 para servidor UDP");
@@ -42,11 +42,9 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 		ejemploTCP();
 	}
 	else
-
-		std::cout << "opcion absurda. matando\n";
+		std::cout << "Opcion absurda. Cerrando programa\n";
 
 	//esperar a cerrar
 	system("pause");
-	
 	return nRetCode;
 }
