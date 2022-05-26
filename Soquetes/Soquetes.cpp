@@ -13,7 +13,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 	int nRetCode = 0;
 
 	puts("Opciones:");
-	puts("E para ejemplo con servidor en juegodetalento.com:6666\n");
+	puts("E para ejemplo con servidor en monsterballgo.com:6666\n");
 	puts("1 para servidor TCP"); 
 	puts("2 para cliente TCP");
 	puts("3 para servidor UDP");
@@ -43,9 +43,9 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 	}
 	else
 
-		std::cout << "opcion absurda. matando\n";
+		std::cout << "Opcion absurda. Cerrando programa\n";
 
-	//esperar a cerrar
+	//esperar a cerrar la ventana de comandos
 	system("pause");
 	
 	return nRetCode;
