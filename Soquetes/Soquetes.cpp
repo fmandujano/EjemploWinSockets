@@ -3,7 +3,7 @@
 /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms738545%28v=vs.85%29.aspx
 /// Felipe Mandujano, 2015
 
-/// Revisado al 25 de noviembre de 2020
+/// Revisado al 2 de junio de 2021
 
 
 #include "ClientServer.h"
@@ -42,11 +42,9 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 		ejemploTCP();
 	}
 	else
-
 		std::cout << "Opcion absurda. Cerrando programa\n";
 
 	//esperar a cerrar la ventana de comandos
 	system("pause");
-	
 	return nRetCode;
 }
